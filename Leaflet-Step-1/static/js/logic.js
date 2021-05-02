@@ -24,6 +24,7 @@ function drawMap(earthQuakes) {
         layers: [lightmap]
     });
     // console.log(typeof(earthQuakes));
+    
 
     // making arrays for putting stuff into my legend
     var limits = ['-10:10', '10:30', '30:50', '50:70', '70:90', '90+'];
