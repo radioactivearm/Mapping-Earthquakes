@@ -68,7 +68,10 @@ function drawQuakes(earthQuakeData) {
         return popColor;
     }
 
-
+    function onEachFeature(feature, layer) {
+        layer.bindPopup('<h3>Magnitude: ' + feature.properties.mag + 
+            '</h3><h3>Depth: ' + feature.geometry.coordinates[2] +'</h3><hr><p>' + feature.properties.place + '<p>');
+    }
 
     function styleCircles(feature) {
         return {
@@ -76,7 +79,7 @@ function drawQuakes(earthQuakeData) {
             stroke: 1,
             fillColor: filling(feature.geometry.coordinates[2]),
             color: 'grey',
-            radius: 4 * feature.properties.mag
+            radius: 3.5 * feature.properties.mag
         }
     }
 
@@ -84,7 +87,8 @@ function drawQuakes(earthQuakeData) {
     var earthQuakes = L.geoJSON(earthQuakeData, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, styleCircles(feature));
-        }
+        },
+        onEachFeature: onEachFeature
     });
     console.log(typeof(earthQuakes));
     drawMap(earthQuakes);
