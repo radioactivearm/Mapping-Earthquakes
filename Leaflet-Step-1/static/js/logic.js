@@ -24,18 +24,12 @@ url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojso
 
 
 
-function drawMap(earthQuakeData) {
+function drawMap(earthQuakes) {
     console.log('drawMap');
 
 
 
-    var earthQuake = function(feature) {
-        L.circle([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-            fillColor: 'red',
-            color: 'black',
-            radius: 5000 * feature.properties.mag
-        });
-    } 
+
 
     // pulled this from inclass example
     var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -50,15 +44,15 @@ function drawMap(earthQuakeData) {
     var myMap = L.map("mapid", {
         center: [37.09, -95.71],
         zoom: 5,
-        layers: [lightmap, earthQuakeLayer]
+        layers: [lightmap]
     });
-
+    console.log(typeof(earthQuakes));
     lightmap.addTo(myMap);
+    earthQuakes.addTo(myMap);
 
-    L.geoJSON(earthQuake).addTo(myMap);
 
     var overlayMaps = {
-        Earthquakes: earthQuakeLayer
+        Earthquakes: earthQuakes
       };
 
       L.control.layers(null, overlayMaps, {
@@ -67,30 +61,27 @@ function drawMap(earthQuakeData) {
 
 }
 
-// function drawQuakes(earthQuakeData) {
-//     console.log('drawQuakes');
+function drawQuakes(earthQuakeData) {
+    console.log('drawQuakes');
 
 
-//     function drawCircles()
+    var styleCircles = {
+            fillColor: 'red',
+            color: 'black',
+            radius: 5
+        };
 
-
-//     // function onEachFeature(feature,layer) {
-//     //     L.circle([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-//     //         fillColor: 'red',
-//     //         color: 'black',
-//     //         radius: 5000 * feature.properties.mag
-//     //     });
-
-//     // }
-
-//     var earthQuakes = L.geoJSON(earthQuakeData, {
-//         // onEachFeature: onEachFeature
-//     });
-
-//     drawMap(earthQuakes);
-// }
+// https://leafletjs.com/examples/geojson/
+    var earthQuakes = L.geoJSON(earthQuakeData, {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, styleCircles);
+        }
+    });
+    console.log(typeof(earthQuakes));
+    drawMap(earthQuakes);
+}
 
 d3.json(url, function(data) {
-    drawMap(data.features);
+    drawQuakes(data.features);
     console.log(data.features);
 });
