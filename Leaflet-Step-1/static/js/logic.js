@@ -22,8 +22,35 @@ function drawMap(earthQuakes) {
         layers: [lightmap]
     });
     console.log(typeof(earthQuakes));
+
+
+    var limits = ['- 10-10', '10-30', '30-50', '50-70', '70-90', '90+'];
+    var legendColors = ['#a3f600','#dcf400', '#f7db11', '#fdb72a', '#fca35d', '#ff5f65']
+
+    var legend = L.control({position: 'bottomright'});
+    legend.onAdd = function() {
+        var div = L.DomUtil.create('div', 'info legend');
+        var labels = [];
+
+        var legendInfo = "<div class=\"labels\"></div>";
+
+        div.innerHTML = legendInfo;
+
+        for (i=0; i < limits.length; i++) {
+            labels.push(
+                "<li style=\"background-color: " + legendColors[i] + "\"></li>" + "<div class=\labels\">" + limits[i] + "</div>"
+                
+            );
+        }
+
+        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+        return div;
+    };
+
+
     lightmap.addTo(myMap);
     earthQuakes.addTo(myMap);
+    legend.addTo(myMap);
 
 
     var overlayMaps = {
@@ -39,6 +66,9 @@ function drawMap(earthQuakes) {
 function drawQuakes(earthQuakeData) {
     console.log('drawQuakes');
 
+
+    var colors = ['#a3f600','#dcf400', '#f7db11', '#fdb72a', '#fca35d', '#ff5f65']
+
     // TA Chris gave me a nudge onto the right track 
     // for this part and i used microsoft paint to pull
     // hexadecimal colors from image given to us
@@ -46,27 +76,42 @@ function drawQuakes(earthQuakeData) {
         var popColor = 'black';
         switch (true) {
             case depth > 90:
-                popColor = '#ff5f65';
+                popColor = colors[5];
                 break;
             case depth > 70:
-                popColor = '#fca35d';
+                popColor = colors[4];
                 break;
             case depth > 50:
-                popColor = '#fdb72a';
+                popColor = colors[3];
                 break;
             case depth > 30:
-                popColor = '#f7db11';
+                popColor = colors[2];
                 break;
             case depth > 10:
-                popColor = '#dcf400';
+                popColor = colors[1];
                 break;
             case depth > -10:
-                popColor = '#a3f600';
+                popColor = colors[0];
                 break;
         }
 
         return popColor;
     }
+
+    var legend = L.control({position: 'bottomright'});
+    legend.onAdd = function() {
+        var div = L.DomUtil.create('div', 'info legend');
+        var labels = [];
+
+        for (i=0; i < limits.length; i++) {
+            labels = labels.push(
+                "<li style=\"background-color: " + legendColors[i] + "\"></li>"
+            );
+        }
+
+        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+        return div;
+    };
 
     function onEachFeature(feature, layer) {
         layer.bindPopup('<h3>Magnitude: ' + feature.properties.mag + 
@@ -82,6 +127,8 @@ function drawQuakes(earthQuakeData) {
             radius: 3.5 * feature.properties.mag
         }
     }
+
+
 
     // https://leafletjs.com/examples/geojson/
     var earthQuakes = L.geoJSON(earthQuakeData, {
