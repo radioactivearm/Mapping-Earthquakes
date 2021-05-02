@@ -1,7 +1,7 @@
 console.log('logic.js loaded');
 
 // all earthquakes over the last 7-days
-url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson';
+var url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson';
 
 function drawMap(earthQuakes) {
     console.log('drawMap');
