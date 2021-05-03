@@ -5,6 +5,9 @@ console.log('logic.js loaded');
 // all earthquakes over the last 7-days
 var url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson';
 
+// all earthquakes in the last 24-hours
+// var url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
+
 // plates url
 var platesUrl = 'https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json';
 
@@ -93,8 +96,8 @@ function drawMap(earthQuakes, plates) {
 
     // adding layers to the map
     lightmap.addTo(myMap);
-    earthQuakes.addTo(myMap);
     plates.addTo(myMap);
+    earthQuakes.addTo(myMap);
     legend.addTo(myMap);
 
     // adding basemap control
@@ -156,16 +159,18 @@ function drawQuakes(earthQuakeData, plateData) {
     }
     // ====================================
 
+    // rounding to two decimals https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
+
     // function for popups on features
     function onEachFeature(feature, layer) {
         layer.bindPopup('<h3>Magnitude: ' + feature.properties.mag +
-            '</h3><h3>Depth: ' + feature.geometry.coordinates[2] + '</h3><hr><p>' + feature.properties.place + '<p>');
+            '</h3><h3>Depth: ' + (Math.round(feature.geometry.coordinates[2] * 100) / 100) + '</h3><hr><p>' + feature.properties.place + '<p>');
     }
 
     // function for circle styles
     function styleCircles(feature) {
         return {
-            fillOpacity: 1,
+            fillOpacity: .7,
             stroke: 1,
             fillColor: filling(feature.geometry.coordinates[2]),
             color: 'grey',
@@ -174,9 +179,14 @@ function drawQuakes(earthQuakeData, plateData) {
     }
 
     var platesStyle = {
-        fill: null,
+        // fill: null,
         color: 'orange',
-        weight: 3
+        weight: 3,
+        fillOpacity: .05
+    }
+
+    function onEachPlate(feature, layer) {
+        layer.bindPopup('<h3>Plate</h3><hr><p>' + feature.properties.PlateName + "</p>")
     }
 
 
@@ -186,12 +196,13 @@ function drawQuakes(earthQuakeData, plateData) {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, styleCircles(feature));
         },
-        onEachFeature: onEachFeature,
+        onEachFeature: onEachFeature
     });
     // console.log(typeof(earthQuakes));
 
     var plates = L.geoJSON(plateData, {
-        style: platesStyle
+        style: platesStyle,
+        onEachFeature: onEachPlate
     });
 
 
