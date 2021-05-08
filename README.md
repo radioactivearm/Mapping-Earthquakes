@@ -12,7 +12,7 @@ This is my Repo for my Leaflet homework for my data analytics Bootcamp U of M
 * Every circle on the map represents an earthquake in the last 7-days.
 * Depth is shown on the map by color and there is a legend in the lower right corner that shows the scale.
 * Magnitude is shown in the size of the circle, scaled to make map aestheticllh pleasing.
-* Each earthquake/circle, if clicked, will have a popup. This pop up tell you the magnitude, depth and relative location.
+* Each earthquake/circle, if clicked, will have a popup. This pop up tell you the magnitude, depth, coordinates and relative location.
 
 
 # Leaflet-Step-2 Features
@@ -23,7 +23,7 @@ This is my Repo for my Leaflet homework for my data analytics Bootcamp U of M
 * Every circle on the map represents an earthquake in the last 7-days.
 * Depth is shown on the map by color and there is a legend in the lower right corner that shows the scale.
 * Magnitude is shown in the size of the circle, scaled to make map aestheticllh pleasing.
-* Each earthquake/circle, if clicked, will have a popup. This pop up tell you the magnitude, depth and relative location.
+* Each earthquake/circle, if clicked, will have a popup. This pop up tell you the magnitude, depth, coordinates, and relative location.
 ### Tectonic Layer
 * Lines that represent the boundries between the earths tectonic plates.
 * If you click anywhere on the map, that is not an earthquake circle, a popup with show up. This will tell you the name of the plate you clicked on.

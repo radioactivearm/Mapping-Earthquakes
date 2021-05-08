@@ -161,10 +161,24 @@ function drawQuakes(earthQuakeData, plateData) {
 
     // rounding to two decimals https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
 
+    // --------------------------------------------------------------------
+    // this function is designed to create the string that populates the popups
+    function Popcorn(Korn) {
+
+        const locString = `<p>Coordinates: [${Math.round(Korn.geometry.coordinates[1] * 100) / 100}, ${Math.round(Korn.geometry.coordinates[0] * 100) / 100}]</p>`;
+        const magString = `<p>Magnitude: ${Korn.properties.mag}</p>`;
+        const depthString = `<p>Depth: ${Math.round(Korn.geometry.coordinates[2] * 100) / 100}</p>`;
+        const placeString = `<p>Relative: ${Korn.properties.place}</p>`
+
+        const earthquakeString = magString + depthString + locString + placeString;
+
+        return earthquakeString;
+    }
+    // ---------------------------------------------------------------------
+    
     // function for popups on features
     function onEachFeature(feature, layer) {
-        layer.bindPopup('<h3>Magnitude: ' + feature.properties.mag +
-            '</h3><h3>Depth: ' + (Math.round(feature.geometry.coordinates[2] * 100) / 100) + '</h3><hr><p>' + feature.properties.place + '<p>');
+        layer.bindPopup(Popcorn(feature));
     }
 
     // function for circle styles
@@ -178,6 +192,7 @@ function drawQuakes(earthQuakeData, plateData) {
         }
     }
 
+    // style for the plates
     var platesStyle = {
         // fill: null,
         color: 'orange',
@@ -185,8 +200,9 @@ function drawQuakes(earthQuakeData, plateData) {
         fillOpacity: .05
     }
 
+    // pop ups for the plates
     function onEachPlate(feature, layer) {
-        layer.bindPopup('<h3>Plate</h3><hr><p>' + feature.properties.PlateName + "</p>")
+        layer.bindPopup('<p>Plate: ' + feature.properties.PlateName + "</p>")
     }
 
 
@@ -200,12 +216,13 @@ function drawQuakes(earthQuakeData, plateData) {
     });
     // console.log(typeof(earthQuakes));
 
+    // Make the plate layer
     var plates = L.geoJSON(plateData, {
         style: platesStyle,
         onEachFeature: onEachPlate
     });
 
-
+    // draw map with both layers
     drawMap(earthQuakes, plates);
 
 

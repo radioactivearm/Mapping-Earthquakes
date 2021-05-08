@@ -116,10 +116,26 @@ function drawQuakes(earthQuakeData) {
     }
     // ====================================
 
+    // ------------------------------------------------
+    // this function is designed to construct the string that populates the popups
+    function Popcorn(Korn) {
+
+        const locString = `<p>Coordinates: [${Math.round(Korn.geometry.coordinates[1] * 100) / 100}, ${Math.round(Korn.geometry.coordinates[0] * 100) / 100}]</p>`;
+        const magString = `<p>Magnitude: ${Korn.properties.mag}</p>`;
+        const depthString = `<p>Depth: ${Math.round(Korn.geometry.coordinates[2] * 100) / 100}</p>`;
+        const placeString = `<p>Relative: ${Korn.properties.place}</p>`
+
+        const earthquakeString = magString + depthString + locString + placeString;
+
+        return earthquakeString;
+    }
+    // ---------------------------------------------------
+
+
+
     // function for popups on features
     function onEachFeature(feature, layer) {
-        layer.bindPopup('<h3>Magnitude: ' + feature.properties.mag + 
-            '</h3><h3>Depth: ' + feature.geometry.coordinates[2] +'</h3><hr><p>' + feature.properties.place + '<p>');
+        layer.bindPopup(Popcorn(feature));
     }
 
     // function for circle styles
