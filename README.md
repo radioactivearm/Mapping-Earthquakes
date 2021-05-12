@@ -1,5 +1,5 @@
-# leaflet-challenge
-This is my Repo for my Leaflet homework for my data analytics Bootcamp U of M
+# Mapping-Earthquakes
+This project was designed to call data on earthquakes and plot them on a map using the javascript leaflet library. For an extra step tectonic plates were added.
 
 # To Run The Map
 1. Open code with VS code
@@ -13,6 +13,7 @@ This is my Repo for my Leaflet homework for my data analytics Bootcamp U of M
 * Depth is shown on the map by color and there is a legend in the lower right corner that shows the scale.
 * Magnitude is shown in the size of the circle, scaled to make map aestheticllh pleasing.
 * Each earthquake/circle, if clicked, will have a popup. This pop up tell you the magnitude, depth, coordinates and relative location.
+![leafletmap1](images/leafletmap1.jpg)
 
 
 # Leaflet-Step-2 Features
@@ -29,3 +30,4 @@ This is my Repo for my Leaflet homework for my data analytics Bootcamp U of M
 * If you click anywhere on the map, that is not an earthquake circle, a popup with show up. This will tell you the name of the plate you clicked on.
 ### Toggling
 * To ensure that the tectonic layer is not covering up the earthquake layer when you are toggling layers, make sure you turn on earthquakes last if you want to be able to click on them.
+![leafletmap2](images/leafletmap2.jpg)
